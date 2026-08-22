@@ -2,18 +2,20 @@ const toggle=document.querySelector('.menu-toggle'),nav=document.querySelector('
 toggle.addEventListener('click',()=>nav.classList.toggle('open'));
 document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
 const socialDialog=document.getElementById('social-dialog');
-const contactTrigger=document.querySelector('.contact-trigger');
-const dialogClose=socialDialog.querySelector('.dialog-close');
-contactTrigger.addEventListener('click',()=>{
+const contactDialog=document.getElementById('contact-dialog');
+document.querySelectorAll('.contact-trigger').forEach((contactTrigger,index)=>contactTrigger.addEventListener('click',()=>{
+	const dialog=index===0?socialDialog:contactDialog;
 	nav.classList.remove('open');
 	const triggerBounds=contactTrigger.getBoundingClientRect();
-	socialDialog.style.top=`${triggerBounds.bottom+12}px`;
-	socialDialog.style.right=`${Math.max(16,window.innerWidth-triggerBounds.right)}px`;
-	socialDialog.showModal();
-});
-dialogClose.addEventListener('click',()=>socialDialog.close());
-socialDialog.addEventListener('click',event=>{
-	if(event.target===socialDialog) socialDialog.close();
+	dialog.style.top=`${triggerBounds.bottom+12}px`;
+	dialog.style.right=`${Math.max(16,window.innerWidth-triggerBounds.right)}px`;
+	dialog.showModal();
+}));
+document.querySelectorAll('.social-dialog').forEach(dialog=>{
+	dialog.querySelector('.dialog-close').addEventListener('click',()=>dialog.close());
+	dialog.addEventListener('click',event=>{
+		if(event.target===dialog) dialog.close();
+	});
 });
 document.querySelectorAll('a[href="#"]').forEach(a=>a.addEventListener('click',e=>e.preventDefault()));
 const header=document.querySelector('.site-header');
